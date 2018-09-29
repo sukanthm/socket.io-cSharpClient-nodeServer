@@ -1,6 +1,6 @@
 # socket.io-cSharp-client
 
-socket.io (HTTP based, bidirectional connection)<br />
+socket.io (HTTPS based, secure bidirectional connection)<br />
 client initiates connection to server (no need to allow new protocols/ports in firewalls)<br />
 client tries forever to (re)connect to server in case of connection error<br />
 server authenticates client with a key<br />
