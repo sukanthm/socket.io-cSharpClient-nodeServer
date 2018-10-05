@@ -11,7 +11,5 @@ server can send powershell script + regex to client which then executes the scri
 All of the above happen asynchronously<br /><br /><br />
 
 Dependencies:<br />
-client: c#<br />
-    .NET 4.5, SocketIoClientDotNet (NuGet)<br />
-server: node.js<br />
-    tail (npm), express (npm), socket.io (npm), log-timestamp (npm)
+client: C#: .NET 4.5, SocketIoClientDotNet (NuGet)<br />
+server: Node.js: tail (npm), express (npm), socket.io (npm), log-timestamp (npm)
