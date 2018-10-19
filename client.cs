@@ -11,14 +11,12 @@ namespace ConsoleApp1
         static void Main(string[] args)
         {
             bool ssl = true;
-            string ip = "35.190.137.55";
+            string ip = args[0];
             string uri = "http://" + ip + ":443";
-            string watchPath = @"D:\Downloads\outbox\";
+            string watchPath = System.AppDomain.CurrentDomain.BaseDirectory + "\\outbox\\";
             System.IO.Directory.CreateDirectory(watchPath);
 
-            if (File.Exists(watchPath + @"client.cs"))
-                File.Delete(watchPath + @"client.cs");
-            File.Copy(@"C:\Users\sukanth\source\repos\ConsoleApp1\ConsoleApp1\Program.cs", watchPath + @"client.cs"); //latest client code to server
+            Console.WriteLine(watchPath);
 
             int counter = 0;
             string authKey = "a1s2d3f4";
@@ -29,10 +27,10 @@ namespace ConsoleApp1
             {
                 AutoConnect = true,
                 Reconnection = true,
-                ReconnectionDelay = 1*1000,
-                ReconnectionDelayMax = 5*1000,
+                ReconnectionDelay = 1 * 1000,
+                ReconnectionDelayMax = 5 * 1000,
                 ReconnectionAttempts = int.MaxValue,
-                Timeout = 60*1000,
+                Timeout = 60 * 1000,
             };
 
             if (ssl == true)
@@ -73,7 +71,7 @@ namespace ConsoleApp1
                         try
                         {
                             byteArray = File.ReadAllBytes(file);
-                            Console.WriteLine("File : "+ fileName + " : sending to master...");
+                            Console.WriteLine("File : " + fileName + " : sending to master...");
                             socket.Emit("fromClient", fileName, byteArray);
                             //Console.WriteLine("sent " + fileName + " to master");
                         }
@@ -117,7 +115,7 @@ namespace ConsoleApp1
                 Console.WriteLine("From server file acknowledgement : " + data);
                 string fileName = data.ToString().Replace(" received", "");
                 File.Delete(watchPath + fileName);
-                Console.WriteLine("File : "+fileName + " : deleted");
+                Console.WriteLine("File : " + fileName + " : deleted");
             });
 
             socket.On("fromServer", (data) =>
