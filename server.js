@@ -31,7 +31,8 @@ server.listen(serverPort, function() {
 
 io.on('connection', function (socket) {
    console.log(socket.id,': connected');
-   output = ''; Object.keys(io.sockets.clients().sockets).forEach(function(value){ output+=value+':'+dict[value]+'  ';  }); console.log('live sockets : ['+output.trim()+']');
+   //output = ''; Object.keys(io.sockets.clients().sockets).forEach(function(value){ output+=value+':'+dict[value]+'  ';  }); console.log('live sockets : '+Object.keys(dict).length+' : ['+output.trim()+']');
+   console.log('live sockets : '+Object.keys(dict).length);
    //console.log(io.sockets.clients().sockets);
 
    socket.on('join', function (msg) {
@@ -39,19 +40,21 @@ io.on('connection', function (socket) {
         jsonMsg = JSON.parse(msg)
         console.log(socket.id, ': join request - ',jsonMsg);
         }
-    else if(typeof msg == 'object'){
+     else if(typeof msg == 'object'){
         jsonMsg = msg
         console.log(socket.id, ': join request - ',jsonMsg);
         }
     else{
         console.log(socket.id,': invalid join request');
-        output = ''; Object.keys(io.sockets.clients().sockets).forEach(function(value){ output+=value+':'+dict[value]+'  ';  }); console.log('live sockets : ['+output.trim()+']');
+        //output = ''; Object.keys(io.sockets.clients().sockets).forEach(function(value){ output+=value+':'+dict[value]+'  ';  }); console.log('live sockets : '+Object.keys(dict).length+' : ['+output.trim()+']');
+        console.log('live sockets : '+Object.keys(dict).length);
         socket.disconnect();
         }
 
 
     if (jsonMsg.authKey == authKey){
-      if (jsonMsg.HostName in dict) 
+     //var values = Object.keys(dict).map(function(key) { return dict[key]; });
+     if (false) // if (jsonMsg.hostName.indexOf(values) !== -1)
            {
         console.log(socket.id,'('+jsonMsg.hostName+')',': hostName already registered');
         socket.emit('fromServer','hostName already registered');
@@ -62,7 +65,8 @@ io.on('connection', function (socket) {
         dict[socket.id] = jsonMsg.hostName;
         socket.emit('fromServer', 'welcome to ure private room '+dict[socket.id]+'!!');
         console.log(socket.id,': been assigned to room -',dict[socket.id]);
-        output = ''; Object.keys(io.sockets.clients().sockets).forEach(function(value){ output+=value+':'+dict[value]+'  ';  }); console.log('live sockets : ['+output.trim()+']');
+        //output = ''; Object.keys(io.sockets.clients().sockets).forEach(function(value){ output+=value+':'+dict[value]+'  ';  }); console.log('live sockets : '+Object.keys(dict).length+' : ['+output.trim()+']');
+        console.log('live sockets : '+Object.keys(dict).length);
            }
         }
     else{
@@ -88,7 +92,8 @@ io.on('connection', function (socket) {
     socket.disconnect();
     console.log(socket.id,'('+dict[socket.id]+') :','disconnected');
     delete dict[socket.id];
-    output = ''; Object.keys(io.sockets.clients().sockets).forEach(function(value){ output+=value+':'+dict[value]+'  ';  }); console.log('live sockets : ['+output.trim()+']');
+    //output = ''; Object.keys(io.sockets.clients().sockets).forEach(function(value){ output+=value+':'+dict[value]+'  ';  }); console.log('live sockets : '+Object.keys(dict).length+' : ['+output.trim()+']');
+    console.log('live sockets : '+Object.keys(dict).length);
    });
 });
 
